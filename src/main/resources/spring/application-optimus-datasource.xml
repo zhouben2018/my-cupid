@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                          http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byName">
+	<!-- <context:property-placeholder location="classpath*:jdbc.properties"/> -->
+	<!-- DataSource数据 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="name" value="souchecar" />
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxActive" value="20" />
+		<property name="minIdle" value="2" />
+		<property name="initialSize" value="2" />
+		<property name="validationQuery" value="SELECT 1" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="testWhileIdle" value="true" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		<property name="defaultAutoCommit" value="true" />
+		<property name="removeAbandoned" value="true" />
+		<property name="removeAbandonedTimeout" value="60" />
+		<property name="logAbandoned" value="true" />
+		<property name="filters" value="stat" />
+		<property name="connectionProperties"
+			value="useUnicode=true;characterEncoding=UTF-8;allowMultiQueries=true;druid.stat.mergeSql=true" />
+		<property name="proxyFilters">
+			<list>
+				<ref bean="slowSql-filter" />
+				<ref bean="log-filter" />
+			</list>
+		</property>
+
+	</bean>
+
+
+	<bean id="slowSql-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+		<property name="mergeSql" value="true" />
+		<property name="slowSqlMillis" value="10000" />
+		<property name="logSlowSql" value="true" />
+	</bean>
+
+	<bean id="log-filter" class="com.alibaba.druid.filter.logging.Log4jFilter">
+	</bean>
+
+	<bean id="mybatisSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="mapperLocations">
+			<list>
+				<value>classpath*:sqlmap/**/*.xml</value>
+			</list>
+		</property>
+		<property name="dataSource" ref="dataSource" />
+
+	</bean>
+
+<!-- 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.souche.cupid.dao" />
+	</bean>
+ -->
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="mybatisSqlSessionFactory" />
+	</bean>
+
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactoryBeanName" value="mybatisSqlSessionFactory" />
+		<property name="basePackage" value="com.zben.cupid.dao" />
+	</bean>
+
+</beans>

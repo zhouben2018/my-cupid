@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zben.cupid.dao.UnifiedClueMysqlDao">
+	<resultMap type="com.zben.cupid.domain.UnifiedClue" id="unifiedClue">
+		<id property="id" column="id" />
+		<result property="messageId" column="message_id" />
+		<result property="clueCategory" column="clue_category" />
+		<result property="clueType" column="clue_type" />
+		<result property="isFiltered" column="is_filtered"/>
+		<result property="storeId" column="store_id" />
+		<result property="carId" column="car_id" />
+		<result property="userId" column="user_id" />
+		<result property="priceLow" column="price_low" />
+		<result property="priceHeight" column="price_height" />
+		<result property="ageLow" column="age_low" />
+		<result property="ageHeight" column="age_height" />
+		<result property="carLevels" column="car_levels" />
+		<result property="firstLicensePlateDate" column="firstlicense_plate_date" />
+		<result property="clueCreateTime" column="clue_creLate_time" />
+		<result property="clueJson" column="clue_json" />
+		<result property="timeCreate" column="date_create"/>
+		<result property="timeUpdate" column="date_update"/>
+		<result property="timeDelete" column="date_delete"/>
+	</resultMap>
+
+	<select id="findByMessageId" parameterType="string" resultMap="unifiedClue">
+		select * from unified_clue where message_id = #{messageId}
+	</select>
+
+	<insert id="saveDomain" parameterType="com.zben.cupid.domain.UnifiedClue">
+		insert into unified_clue (
+		id,
+		message_id,
+		clue_category,
+		clue_type,
+		operation,
+		is_filtered,
+		platform,
+		platform3,
+		store_id,
+		car_id,
+		user_id,
+		serieses,
+		price_low,
+		price_height,
+		age_low,
+		age_height,
+		structures,
+		car_levels,
+		colors,
+		series,
+		price,
+		firstlicense_plate_date,
+		mileage,
+		remark,
+		clue_create_time,
+		clue_json,
+		date_create, date_update)
+		values (
+		#{id},
+		#{messageId},
+		#{clueCategory},
+		#{clueType},
+		#{operation},
+		#{isFiltered},
+		#{platform},
+		#{platform3},
+		#{storeId},
+		#{carId},
+		#{userId},
+		#{serieses},
+		#{priceLow},
+		#{priceHeight},
+		#{ageLow},
+		#{ageHeight},
+		#{structures},
+		#{carLevels},
+		#{colors},
+		#{series},
+		#{price},
+		#{firstlicensePlateDate},
+		#{mileage},
+		#{remark},
+		#{clueCreateTime},
+		#{clueJson},
+		now(), now())
+	</insert>
+
+
+</mapper>
