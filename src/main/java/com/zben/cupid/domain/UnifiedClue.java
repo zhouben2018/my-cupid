@@ -1,5 +1,6 @@
 package com.zben.cupid.domain;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Date;
  * @Date: 下午3:26 2018/4/4
  */
 @Data
+@Builder
 public class UnifiedClue extends BaseDomain {
     private static final long serialVersionUID = 5776770536287498523L;
     private String id;
@@ -33,7 +35,7 @@ public class UnifiedClue extends BaseDomain {
     private String colors;
     private String series;
     private Integer price;
-    private Date firstLicensePlateDate;
+//    private Date firstLicensePlateDate;
     private Integer mileage;
     private String remark;
     private Date clueCreateTime;

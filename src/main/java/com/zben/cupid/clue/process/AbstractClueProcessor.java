@@ -3,11 +3,14 @@ package com.zben.cupid.clue.process;
 import com.alibaba.fastjson.JSON;
 import com.zben.cupid.clue.model.ClueBase;
 import com.zben.cupid.clue.model.ClueMessageData;
+import com.zben.cupid.commons.UUIDUtil;
 import com.zben.cupid.domain.UnifiedClue;
 import com.zben.cupid.service.UnifiedClueService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Date;
 
 /**
  * @Author: zben
@@ -46,10 +49,35 @@ public abstract class AbstractClueProcessor {
         try {
             dbClue = unifiedClueService.findByMessageId(messageData.getId());
         } catch (Exception e) {
-            e.printStackTrace();
+            return false;
+        }
+        if (dbClue != null) {
+            log.error("clue already exist:{}", JSON.toJSONString(clue));
+            return false;
+        }
+        UnifiedClue unifiedClue = UnifiedClue.builder()
+                .id(UUIDUtil.getId()).ageHeight(messageData.getIntent_age_height())
+                .ageLow(messageData.getIntent_age_low()).carId(messageData.getSc_car_id())
+                .carLevels(messageData.getIntent_car_level()).clueCategory(clue.getClueCategory())
+                .isFiltered(0).clueType(ClueType.BuyCar.name()).colors(messageData.getIntent_colors())
+                .messageId(messageData.getId()).mileage(messageData.getMileage())
+                .operation(clue.getOperation()).platform(clue.getPlatform()).platform3(messageData.getPlatform3())
+                .price(messageData.getSale_price()).priceHeight(messageData.getIntent_price_height())
+                .priceLow(messageData.getIntent_age_low()).remark(messageData.getRemark())
+                .series(messageData.getIntent_series()).storeId(clue.getStoreId())
+                .structures(messageData.getIntent_structure()).userId(clue.getScUserId())
+                .clueJson(JSON.toJSONString(clue)).build();
+
+        if (messageData.getClue_date_create() != null) {
+            unifiedClue.setClueCreateTime(new Date(messageData.getClue_date_create()));
+        }
+        try {
+            unifiedClueService.save(unifiedClue);
+        } catch (Exception e) {
+            return false;
         }
 
-        return false;
+        return true;
 
     }
 

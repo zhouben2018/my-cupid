@@ -10,4 +10,6 @@ import com.zben.cupid.domain.UnifiedClue;
 public interface UnifiedClueService {
 
     UnifiedClue findByMessageId(String messageId) throws Exception;
+
+    void save(UnifiedClue unifiedClue);
 }

@@ -16,7 +16,7 @@
 		<result property="ageLow" column="age_low" />
 		<result property="ageHeight" column="age_height" />
 		<result property="carLevels" column="car_levels" />
-		<result property="firstLicensePlateDate" column="firstlicense_plate_date" />
+		<!--<result property="firstLicensePlateDate" column="firstlicense_plate_date" />-->
 		<result property="clueCreateTime" column="clue_creLate_time" />
 		<result property="clueJson" column="clue_json" />
 		<result property="timeCreate" column="date_create"/>
@@ -51,7 +51,6 @@
 		colors,
 		series,
 		price,
-		firstlicense_plate_date,
 		mileage,
 		remark,
 		clue_create_time,
@@ -79,7 +78,6 @@
 		#{colors},
 		#{series},
 		#{price},
-		#{firstlicensePlateDate},
 		#{mileage},
 		#{remark},
 		#{clueCreateTime},

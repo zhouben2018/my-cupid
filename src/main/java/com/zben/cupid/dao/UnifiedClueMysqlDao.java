@@ -10,4 +10,6 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface UnifiedClueMysqlDao {
     UnifiedClue findByMessageId(@Param("messageId") String messageId);
+
+    void saveDomain(UnifiedClue unifiedClue);
 }
