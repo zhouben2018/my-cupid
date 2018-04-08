@@ -5,12 +5,15 @@ import com.zben.cupid.clue.model.ClueBase;
 import com.zben.cupid.clue.model.ClueMessageData;
 import com.zben.cupid.commons.UUIDUtil;
 import com.zben.cupid.domain.UnifiedClue;
+import com.zben.cupid.remote.ClueTraceSPI;
 import com.zben.cupid.service.UnifiedClueService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @Author: zben
@@ -23,6 +26,11 @@ public abstract class AbstractClueProcessor {
     @Autowired
     protected UnifiedClueService unifiedClueService;
 
+    @Autowired
+    private ClueTraceSPI clueTraceSPI;
+
+    public static final ExecutorService executorService = Executors.newCachedThreadPool();
+
     public boolean process(final ClueBase clue) {
         String shopCode = clue.getStoreId();
         if (StringUtils.isNotBlank(shopCode)) {
@@ -34,8 +42,19 @@ public abstract class AbstractClueProcessor {
             return false;
         }
 
+        boolean notFiltered = true;
+
         //保存线索
         this.saveClue(clue);
+
+        final String scUserId = clue.getScUserId();
+        final String storeId = clue.getStoreId();
+
+        executorService.execute(new Runnable() {
+            public void run() {
+                clueTraceSPI.addClueTrace(scUserId, storeId, null, "isFiltered", true);
+            }
+        });
         return false;
     }
 

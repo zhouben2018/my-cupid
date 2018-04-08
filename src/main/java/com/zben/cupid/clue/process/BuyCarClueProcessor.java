@@ -9,4 +9,18 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BuyCarClueProcessor extends AbstractClueProcessor {
+
+    private double aDouble;
+    public static void main(String[] args) {
+
+    }
+//    System.ou
 }
+
+
+
+
+
+
+
+
