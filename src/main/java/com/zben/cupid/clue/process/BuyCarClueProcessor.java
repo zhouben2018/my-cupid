@@ -6,7 +6,9 @@ import com.zben.cupid.clue.model.Categorys;
 import com.zben.cupid.clue.model.ClueBase;
 import com.zben.cupid.clue.model.ClueMessageData;
 import com.zben.cupid.domain.CarMessageView;
+import com.zben.cupid.remote.ShieldSPI;
 import com.zben.cupid.service.BaseMessageService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import java.util.List;
  * @Date: 下午3:18 2018/4/4
  */
 @Service
+@Slf4j
 public class BuyCarClueProcessor extends AbstractClueProcessor {
 
     private static final String FOLLOW_KEY = "意向车辆: ";
@@ -28,6 +31,9 @@ public class BuyCarClueProcessor extends AbstractClueProcessor {
 
     @Autowired
     private BaseMessageService baseMessageService;
+
+    @Autowired
+    private ShieldSPI shieldSPI;
 
     @Transactional("pkgouTransactionManager")
     protected boolean pushMessage(ClueBase clue) {
@@ -51,7 +57,13 @@ public class BuyCarClueProcessor extends AbstractClueProcessor {
 
         String isNewCar = "0";
         String isLeaseCar = "0";
+        //插入消息， 返回消息id
         String msgId = baseMessageService.saveAndDetail(carMessageBody, clue, isNewCar, isLeaseCar);
+        //获取线索里的销售账号
+        String clueSaler = shieldSPI.getAccountById(clueMessageData.getSalesperson_id());
+
+        log.info("销售ID....." + clueMessageData.getSalesperson_id());
+
 
         return false;
     }
