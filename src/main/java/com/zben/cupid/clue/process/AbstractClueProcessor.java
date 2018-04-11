@@ -10,6 +10,8 @@ import com.zben.cupid.service.UnifiedClueService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
@@ -31,6 +33,7 @@ public abstract class AbstractClueProcessor {
 
     public static final ExecutorService executorService = Executors.newCachedThreadPool();
 
+    @Transactional("pkgouTransactionManager")
     public boolean process(final ClueBase clue) {
         String shopCode = clue.getStoreId();
         if (StringUtils.isNotBlank(shopCode)) {
@@ -55,8 +58,15 @@ public abstract class AbstractClueProcessor {
                 clueTraceSPI.addClueTrace(scUserId, storeId, null, "isFiltered", true);
             }
         });
-        return false;
+        return this.pushMessage(clue);
     }
+
+    /**
+     * 发送推送消息
+     * @param clue
+     * @return
+     */
+    protected abstract boolean pushMessage(ClueBase clue);
 
     private boolean saveClue(ClueBase clue) {
         ClueMessageData messageData = clue.getData();
