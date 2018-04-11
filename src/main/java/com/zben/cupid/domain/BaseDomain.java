@@ -1,6 +1,7 @@
 package com.zben.cupid.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Date;
  * @Description:
  * @Date: 下午3:27 2018/4/4
  */
+
 public class BaseDomain implements Serializable {
     private static final long serialVersionUID = 2076310985810497033L;
 

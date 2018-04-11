@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zben.cupid.dao.BaseMessageMysqlDao">
+
+	<resultMap type="com.zben.cupid.domain.BaseMessageBody" id="BaseMessageBody">
+		<result property="id" column="id"/>
+		<result property="storeId" column="store"/>
+		<result property="source" column="source"/>
+		<result property="event" column="event"/>
+		<result property="extType" column="ext_type"/>
+		<result property="operator" column="operator"/>
+		<result property="jsonBody" column="jsonBody"/>
+		<result property="timeCreate" column="date_create"/>
+		<result property="timeUpdate" column="date_update"/>
+		<result property="timeDelete" column="date_delete"/>
+	</resultMap>
+
+
+	<insert id="save" parameterType="com.zben.cupid.domain.BaseMessageBody">
+		insert into base_message(
+		id,
+		store,
+		source,
+		event,
+		ext_type,
+		operator,
+		jsonBody,
+		date_create
+		)
+		values(
+		#{id},
+		#{storeId},
+		#{source},
+		#{event},
+		#{extType},
+		#{operator},
+		#{jsonBody},
+		now()
+		)
+	</insert>
+
+</mapper>

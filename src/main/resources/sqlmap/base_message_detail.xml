@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>      
+<!DOCTYPE mapper      
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"      
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zben.cupid.dao.MessageDetailMysqlDao">
+
+	<resultMap type="com.zben.cupid.domain.MessageDetail" id="MessageDetail">
+		<result property="id" column="id"/>
+		<result property="storeId" column="store"/>
+		<result property="userId" column="user_id"/>
+		<result property="clueCategory" column="clue_category"/>
+		<result property="platform" column="platform"/>
+		<result property="platform3" column="platform3"/>
+		<result property="appId" column="app_id"/>
+		<result property="isLeaseCar" column="is_lease_car"/>
+		<result property="isNewCar" column="is_new_car"/>
+		<result property="source" column="source"/>
+		<result property="event" column="event"/>
+		<result property="extType" column="ext_type"/>
+		<result property="timeCreate" column="date_create"/>
+		<result property="timeUpdate" column="date_update"/>
+		<result property="timeDelete" column="date_delete"/>
+	</resultMap>
+
+	<insert id="save" parameterType="com.zben.cupid.domain.MessageDetail">
+		insert into base_message_detail(
+		id,
+		store,
+		user_id,
+		message_id,
+		clue_category,
+		platform,
+		platform3,
+		app_id,
+		is_lease_car,
+		is_new_car,
+		source,
+		event,
+		ext_type,
+		date_create
+		)
+		values(
+		#{id},
+		#{storeId},
+		#{userId},
+		#{messageId},
+		#{clueCategory},
+		#{platform},
+		#{platform3},
+		#{appId},
+		#{isLeaseCar},
+		#{isNewCar},
+		#{source},
+		#{event},
+		#{extType},
+		now()
+		)
+	</insert>
+
+</mapper>
