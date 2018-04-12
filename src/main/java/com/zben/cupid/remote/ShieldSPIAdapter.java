@@ -1,6 +1,7 @@
 package com.zben.cupid.remote;
 
 import com.zben.cupid.shield.api.UserService;
+import com.zben.cupid.shield.dto.UserDto;
 import com.zben.cupid.shield.model.UserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +32,31 @@ public class ShieldSPIAdapter implements ShieldSPI {
         return StringUtils.isBlank(account) ? null : account;
     }
 
+    /**
+     * 根据账户获取
+     * @param account
+     * @return
+     */
+    @Override
+    public UserVo getUserVoByAccount(String account) {
+        try {
+            UserVo userVo = userService.getByAccountOrPhone(account);
+            if (userVo == null) {
+                log.error("[查询用户] 没有查到用户...account=" + account);
+                return null;
+            }
+            return userVo;
+        } catch (Exception e) {
+            log.error("{}, {}", account, e);
+        }
+        return null;
+    }
+
+    /**
+     * 根据userId获取用户信息
+     * @param userId
+     * @return
+     */
     private UserVo getUserById(String userId) {
         UserVo userVo = null;
         try {

@@ -40,6 +40,8 @@ public class ClueMessageData implements Serializable {
 	 * coc同步客户跟进时间
 	 */
 	private String follow_time;
+
+	private Integer sex;
 	
 	/**
 	 * coc跟进记录

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>      
+<!DOCTYPE mapper      
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"      
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.zben.cupid.dao.CustomerPicMysqlDao">
+      
+   <!-- 结果集 -->     
+   <resultMap id="customerPic" type="com.zben.cupid.domain.CustomerPicMysql">
+      <result property="id" column="id"/>  
+      <result property="customerId" column="customer_id"/>  
+      <result property="picture" column="picture"/> 
+      <result property="sortIndex" column="sort_index"/>   
+      <result property="timeCreate" column="date_create"/>  
+   </resultMap>
+      
+   <!-- 查询获得多条（根据用户id） -->
+   	<select id="getByCustomerId"  parameterType="java.lang.String" resultMap="customerPic">
+	 <![CDATA[
+	       select * from customer_pic
+	       where customer_id=#{customerId} order by sort_index asc
+	  ]]>
+	</select>
+     
+</mapper>   

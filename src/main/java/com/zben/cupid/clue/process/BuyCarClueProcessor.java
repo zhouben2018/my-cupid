@@ -6,8 +6,11 @@ import com.zben.cupid.clue.model.Categorys;
 import com.zben.cupid.clue.model.ClueBase;
 import com.zben.cupid.clue.model.ClueMessageData;
 import com.zben.cupid.domain.CarMessageView;
+import com.zben.cupid.remote.ResourceSPI;
 import com.zben.cupid.remote.ShieldSPI;
 import com.zben.cupid.service.BaseMessageService;
+import com.zben.cupid.service.CustomerService;
+import com.zben.cupid.shield.model.UserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +36,13 @@ public class BuyCarClueProcessor extends AbstractClueProcessor {
     private BaseMessageService baseMessageService;
 
     @Autowired
+    private CustomerService customerService;
+
+    @Autowired
     private ShieldSPI shieldSPI;
+
+    @Autowired
+    private ResourceSPI resourceSPI;
 
     @Transactional("pkgouTransactionManager")
     protected boolean pushMessage(ClueBase clue) {
@@ -45,6 +54,8 @@ public class BuyCarClueProcessor extends AbstractClueProcessor {
         String platform = clue.getPlatform();   //一级来源
         String clueCategory = clue.getClueCategory();   //二级来源
         String platform3 = clueMessageData.getPlatform3();  //三级来源
+        String level = clueMessageData.getLevel();  //coc客户等级
+        Integer sex = clueMessageData.getSex();
 
         String source = assembleSource(platform, clueCategory, platform3);
 
@@ -55,6 +66,7 @@ public class BuyCarClueProcessor extends AbstractClueProcessor {
         carMessageBody.setExtType("8036");
         carMessageBody.setStoreId(storeId);
 
+        Boolean isValid = false;
         String isNewCar = "0";
         String isLeaseCar = "0";
         //插入消息， 返回消息id
@@ -63,9 +75,27 @@ public class BuyCarClueProcessor extends AbstractClueProcessor {
         String clueSaler = shieldSPI.getAccountById(clueMessageData.getSalesperson_id());
 
         log.info("销售ID....." + clueMessageData.getSalesperson_id());
+        customerService.addOrGetCustomerFroUser(clue.getScUserId(), storeId, null,
+                isSaler(clueSaler) ? clueMessageData.getSalesperson_id() : null, null, level, sex);
 
-
+        int i = 1/0;
         return false;
+    }
+
+    /**
+     * 是否是销售
+     * @param clueSaler
+     * @return
+     */
+    private boolean isSaler(String clueSaler) {
+        Boolean isValid = false;
+        if (StringUtils.isNotEmpty(clueSaler)) {
+            UserVo userVo = shieldSPI.getUserVoByAccount(clueSaler);
+            if (userVo != null) {
+                isValid = resourceSPI.isSaler(userVo);
+            }
+        }
+        return isValid;
     }
 
     /**

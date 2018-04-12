@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>      
+<!DOCTYPE mapper      
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"      
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.zben.cupid.dao.CustomerMysqlDao">
+      
+   <!-- 结果集 -->     
+   <resultMap id="customer" type="com.zben.cupid.domain.CustomerMysql">
+      <result property="id" column="id"/>  
+      <result property="sequence" column="sequence"/>  
+      <result property="crmUserId" column="crm_user_id"/>  
+      <result property="phone" column="phone"/>  
+      <result property="name" column="name"/> 
+      <result property="siteId" column="site_id"/>   
+      <result property="shopCode" column="shop_code"/>  
+      <result property="sex" column="sex"/>  
+      <result property="source" column="source"/> 
+      <result property="firstSource" column="first_source"/> 
+      <result property="secondSource" column="second_source"/> 
+      <result property="thirdSource" column="third_source"/> 
+      <result property="ddSource" column="dd_source"/>  
+      <result property="backupPhone" column="backup_phone"/>  
+      <result property="identificationNumber" column="identification_number"/>  
+      <result property="qq" column="qq"/>  
+      <result property="wechat" column="wechat"/>  
+      <result property="province" column="province"/> 
+      <result property="city" column="city"/> 
+      <result property="district" column="district"/> 
+      <result property="birthday" column="birthday"/>
+      <result property="remark" column="remark"/>
+      <result property="address" column="address"/>
+      <result property="alipayAccount" column="alipay_account"/>
+      <result property="taobaoAccount" column="taobao_account"/>
+      <result property="operator" column="operator"/>
+      <result property="belongSales" column="belong_sales"/>
+      <result property="belongAppraiser" column="belong_appraiser"/>
+      <result property="sellerLable" column="seller_lable"/>
+      <result property="cocLevel" column="coc_level"/>
+      <result property="beforeOrderLevel" column="before_order_level"/>
+      <result property="level" column="level"/> 
+      <result property="createType" column="create_type"/> 
+      <result property="creator" column="creator"/> 
+      <result property="ext" column="ext"/> 
+      <result property="followTimeDate" column="follow_time"/>
+      <result property="cocFollowTime" column="coc_follow_time"/>
+      <result property="levelChangeTime" column="level_change_time"/>
+      <result property="timeCreate" column="date_create"/>   
+      <result property="timeUpdate" column="date_update"/>
+      <result property="timeDelete" column="date_delete"/>
+      <result property="isArriveShop" column="is_arrive_shop"/>    
+   </resultMap>
+
+    <select id="getCrmUserIdAndShopCode" parameterType="map" resultMap="customer">
+    	<![CDATA[
+    	select * from customer where crm_user_id=#{crmUserId} and shop_code=#{shopCode} and deleted=0 limit 1;
+    	]]>
+    </select>
+    
+</mapper>   
