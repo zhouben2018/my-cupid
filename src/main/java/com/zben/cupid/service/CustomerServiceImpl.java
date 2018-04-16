@@ -38,6 +38,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerPicMysqlDao customerPicMysqlDao;
 
+    @Autowired
+    private CupidService cupidService;
+
     @Override
     public Customer addOrGetCustomerFroUser(String scUserId, String storeId, String source,
                                             String belongSales, String operator, String cocLevel, Integer sex) {
@@ -62,9 +65,12 @@ public class CustomerServiceImpl implements CustomerService {
         if (level != null) {
             oldCustomer.setLevel(level);
         }
+        oldCustomer = cupidService.saveOrUpdateCustomer(oldCustomer);
+        if (oldCustomer == null) {
+            return null;
+        }
 
-
-        return null;
+        return oldCustomer;
     }
 
     private String getCustomerLevel(String cocLevel) {
@@ -95,7 +101,7 @@ public class CustomerServiceImpl implements CustomerService {
      * @param storeId
      * @return
      */
-    private Customer getCrmUserIdAndShopCode(String scUserId, String storeId) {
+    public Customer getCrmUserIdAndShopCode(String scUserId, String storeId) {
         if (StringUtils.isEmpty(scUserId) || StringUtils.isEmpty(storeId)) {
             return null;
         }

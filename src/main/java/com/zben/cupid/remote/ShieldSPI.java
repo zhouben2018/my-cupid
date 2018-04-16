@@ -11,4 +11,6 @@ public interface ShieldSPI {
     String getAccountById(String salespersonId);
 
     UserVo getUserVoByAccount(String clueSaler);
+
+    UserVo getByUserId(String userId);
 }

@@ -52,6 +52,20 @@ public class ShieldSPIAdapter implements ShieldSPI {
         return null;
     }
 
+    @Override
+    public UserVo getByUserId(String userId) {
+        try {
+            if (StringUtils.isEmpty(userId)) {
+                return null;
+            }
+            return userService.get(userId);
+        } catch (Exception e) {
+            log.error("getUserById", e);
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     /**
      * 根据userId获取用户信息
      * @param userId

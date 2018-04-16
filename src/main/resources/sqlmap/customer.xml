@@ -55,5 +55,12 @@
     	select * from customer where crm_user_id=#{crmUserId} and shop_code=#{shopCode} and deleted=0 limit 1;
     	]]>
     </select>
+
+   <!-- 查询获得多条（根据电话和店铺代码） -->
+   <select id="getByPhoneAndShopCode" parameterType="map" resultMap="customer">
+      <![CDATA[
+	       select * from customer where phone=#{phone} and shop_code=#{shopCode} and deleted=0
+	  ]]>
+   </select>
     
 </mapper>   

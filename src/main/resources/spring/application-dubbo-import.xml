@@ -14,4 +14,6 @@
     <dubbo:reference interface="com.zben.cupid.shield.api.UserService" id="userService" />
 
     <dubbo:reference interface="com.zben.cupid.shield.api.ResourceService" id="resourceService" />
+
+    <dubbo:reference interface="com.zben.cupid.track.api.TrackService" id="trackService" />
 </beans>

@@ -1,5 +1,6 @@
 package com.zben.cupid.dao;
 
+import com.zben.cupid.domain.Customer;
 import com.zben.cupid.domain.CustomerMysql;
 
 import java.util.Map;
@@ -11,4 +12,6 @@ import java.util.Map;
  */
 public interface CustomerMysqlDao {
     CustomerMysql getCrmUserIdAndShopCode(Map map);
+
+    CustomerMysql getByShopCodeAndPhone(Map map);
 }
