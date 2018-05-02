@@ -20,6 +20,8 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = "classpath:applicationContext.xml")
 public class UnifiedClueMessageRecieverTest {
 
+
+
     @Autowired
     private BuyCarClueProcessor buyCarClueProcessor;
 
