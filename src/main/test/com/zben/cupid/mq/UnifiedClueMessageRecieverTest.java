@@ -29,6 +29,7 @@ public class UnifiedClueMessageRecieverTest {
         ClueBase clueBase = JSON.parseObject(clueJson,ClueBase.class);
         System.out.println("1");
         buyCarClueProcessor.process(clueBase);
+
         Thread.sleep(2000);
     }
 }
