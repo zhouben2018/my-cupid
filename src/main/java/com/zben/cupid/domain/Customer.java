@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @ApiModel("客户")
 public class Customer extends BaseDomain {
     private static final long serialVersionUID = -5732179517670315985L;
